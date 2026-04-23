@@ -280,7 +280,7 @@ const importCanvas = async (event: Event) => {
 - Vue 3.3.0+
 - LeaferUI 2.0.8+
 - Tinykeys 3.0.0+
-- @zzalai/leafer-undo-redo 1.0.2+
+- @zzalai/leafer-undo-redo 1.0.3+
 
 ## License
 

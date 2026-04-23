@@ -201,7 +201,7 @@ import {
   ICommand,
   MoveCommand,
   ResizeCommand,
-} from "leaferjs-undo-redo";
+} from "@zzalai/leafer-undo-redo";
 // 扩展 Window 接口，添加热键取消订阅函数
 declare global {
   interface Window {

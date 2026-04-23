@@ -1,18 +1,18 @@
 {
-  "name": "@zzalai/leaferjs-multi-roi",
+  "name": "@zzalai/leafer-multi-roi",
   "version": "1.0.1",
   "description": "Vue3 component for multi-region selection on images using LeaferJS",
   "type": "module",
   "publishConfig": {
     "access": "public"
   },
-  "main": "./dist/leaferjs-multi-roi.umd.js",
-  "module": "./dist/leaferjs-multi-roi.es.js",
+  "main": "./dist/leafer-multi-roi.umd.js",
+  "module": "./dist/leafer-multi-roi.es.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/leaferjs-multi-roi.es.js",
-      "require": "./dist/leaferjs-multi-roi.umd.js",
+      "import": "./dist/leafer-multi-roi.es.js",
+      "require": "./dist/leafer-multi-roi.umd.js",
       "types": "./dist/index.d.ts"
     }
   },
@@ -40,11 +40,12 @@
     "@leafer-in/resize": "^2.0.8",
     "@leafer-in/view": "^2.0.8",
     "@leafer-in/viewport": "^2.0.8",
-    "leafer-ui": "^2.0.8",
     "@zzalai/leafer-undo-redo": "1.0.3",
+    "leafer-ui": "^2.0.8",
     "tinykeys": "^3.0.0"
   },
   "devDependencies": {
+    "@types/node": "^25.6.0",
     "@vitejs/plugin-vue": "^6.0.6",
     "terser": "^5.46.1",
     "typescript": "^6.0.2",
