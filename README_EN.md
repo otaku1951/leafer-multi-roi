@@ -88,7 +88,8 @@ const editorOptions = ref({
     stroke: 'rgba(100, 149, 237, 1)',
     strokeWidth: 2
   },
-  maxRegions: 20 // Maximum number of regions, default is 20
+  maxRegions: 20, // Maximum number of regions, default is 20
+  maxUndoSteps: 100 // Maximum undo/redo steps, default is 100
 })
 
 // Handle ROI change

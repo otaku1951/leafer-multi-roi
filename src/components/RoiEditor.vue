@@ -230,6 +230,7 @@ export interface OptionsSource {
     strokeWidth?: number;
   };
   maxRegions?: number;
+  maxUndoSteps?: number;
 }
 
 const props = defineProps({
@@ -312,9 +313,39 @@ interface ResizeData {
 let pendingResizeData: ResizeData | null = null;
 
 // 命令管理器实例
-const commandManager = new CommandManager();
+let commandManager: CommandManager;
+
+// 初始化命令管理器
+const initCommandManager = () => {
+  commandManager = new CommandManager();
+};
+
+// 执行命令并检查步数限制
+const executeCommand = (command: ICommand) => {
+  // 执行命令
+  commandManager.executeCommand(command);
+  
+  // 检查步数限制（默认100）
+  const maxUndoSteps = props.options.maxUndoSteps ?? 100;
+  if (maxUndoSteps > 0) {
+    // 类型断言，访问私有属性
+    const cmdManager = commandManager as any;
+    // 移除超过限制的最早命令
+    while (cmdManager.commandStack && cmdManager.commandStack.length > maxUndoSteps) {
+      // 移除最早的命令
+      cmdManager.commandStack.shift();
+      // 如果当前在栈的中间位置，需要调整当前索引
+      if (cmdManager.currentIndex > 0) {
+        cmdManager.currentIndex--;
+      }
+    }
+  }
+};
 
 const initCanvas = () => {
+  // 初始化命令管理器
+  initCommandManager();
+  
   // 创建 Leafer 实例
   app = new App({
     view: canvasContainer.value,
@@ -403,7 +434,7 @@ const initCanvas = () => {
             pendingMoveData.toX,
             pendingMoveData.toY,
           );
-          commandManager.executeCommand(moveCommand);
+          executeCommand(moveCommand);
           // 触发ROI变化事件
           emit("roiChange", getROIAnnotations());
         }
@@ -473,7 +504,7 @@ function processPendingResize() {
         pendingResizeData.toWidth,
         pendingResizeData.toHeight,
       );
-      commandManager.executeCommand(resizeCommand);
+      executeCommand(resizeCommand);
       // 触发ROI变化事件
       emit("roiChange", getROIAnnotations());
     }
@@ -1033,7 +1064,7 @@ const handlePointerUp = () => {
       // 使用命令模式添加元素，以便支持撤销/重做
       // 使用 contentLayer 作为父容器，因为 ROI 是添加在 contentLayer 上的
       const addCommand = new AddElementCommand(contentLayer, tempRect as any);
-      commandManager.executeCommand(addCommand);
+      executeCommand(addCommand);
 
       // 触发ROI变化事件
       emit("roiChange", getROIAnnotations());
@@ -1214,7 +1245,7 @@ const deleteSelected = () => {
   // 使用 BatchCommand 批量执行
   if (removeCommands.length > 0) {
     const batchCommand = new BatchCommand(removeCommands);
-    commandManager.executeCommand(batchCommand);
+    executeCommand(batchCommand);
   }
 
   // 取消编辑器选中状态，避免残留边框

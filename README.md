@@ -88,7 +88,8 @@ const editorOptions = ref({
     stroke: 'rgba(100, 149, 237, 1)',
     strokeWidth: 2
   },
-  maxRegions: 20 // 最大区域数量限制，默认值为20
+  maxRegions: 20, // 最大区域数量限制，默认值为20
+  maxUndoSteps: 100 // 最大撤销/重做步数限制，默认值为100
 })
 
 // 处理ROI变化
