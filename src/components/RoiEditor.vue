@@ -317,29 +317,14 @@ let commandManager: CommandManager;
 
 // 初始化命令管理器
 const initCommandManager = () => {
-  commandManager = new CommandManager();
+  // 从配置中获取最大撤销步数（默认100）
+  const maxUndoSteps = props.options.maxUndoSteps ?? 100;
+  commandManager = new CommandManager(maxUndoSteps);
 };
 
-// 执行命令并检查步数限制
+// 执行命令
 const executeCommand = (command: ICommand) => {
-  // 执行命令
   commandManager.executeCommand(command);
-  
-  // 检查步数限制（默认100）
-  const maxUndoSteps = props.options.maxUndoSteps ?? 100;
-  if (maxUndoSteps > 0) {
-    // 类型断言，访问私有属性
-    const cmdManager = commandManager as any;
-    // 移除超过限制的最早命令
-    while (cmdManager.commandStack && cmdManager.commandStack.length > maxUndoSteps) {
-      // 移除最早的命令
-      cmdManager.commandStack.shift();
-      // 如果当前在栈的中间位置，需要调整当前索引
-      if (cmdManager.currentIndex > 0) {
-        cmdManager.currentIndex--;
-      }
-    }
-  }
 };
 
 const initCanvas = () => {
