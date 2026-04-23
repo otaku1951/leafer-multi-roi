@@ -31,6 +31,10 @@
   ],
   "author": "zzalai",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/otaku1951/leafer-multi-roi.git"
+  },
   "packageManager": "pnpm@10.33.0",
   "peerDependencies": {
     "vue": "^3.3.0"
