@@ -20,7 +20,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "example:build": "vite build --config vite.example.config.ts"
   },
   "keywords": [
     "vue3",
