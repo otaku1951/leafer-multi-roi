@@ -36,6 +36,7 @@
     "type": "git",
     "url": "https://github.com/otaku1951/leafer-multi-roi.git"
   },
+  "homepage": "https://otaku1951.github.io/leafer-multi-roi/",
   "packageManager": "pnpm@10.33.0",
   "peerDependencies": {
     "vue": "^3.3.0"
