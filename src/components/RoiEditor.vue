@@ -890,11 +890,11 @@ const fitImageToCanvas = () => {
   const scale = Math.min(scaleX, scaleY, 1); // 不放大图片，只缩小
 
   // 计算居中位置
-  const centerX = (canvasWidth - imageWidthVal * scale) / 2;
-  const centerY = (canvasHeight - imageHeightVal * scale) / 2;
+  const centerX = (canvasWidth - imageWidthVal * Number(scale.toFixed(2))) / 2;
+  const centerY = (canvasHeight - imageHeightVal * Number(scale.toFixed(2))) / 2;
 
   // 设置画布缩放和位置
-  app.tree.scale = scale;
+  app.tree.scale = Number(scale.toFixed(2));
   app.tree.x = centerX;
   app.tree.y = centerY;
   // 更新缩放级别显示
