@@ -229,6 +229,7 @@ export interface OptionsSource {
     stroke: string;
     strokeWidth?: number;
   };
+  maxRegions?: number;
 }
 
 const props = defineProps({
@@ -1007,6 +1008,16 @@ const handlePointerUp = () => {
       tempRect.remove();
       tempRect = null;
     } else {
+      // 检查是否超过最大区域数量限制（默认值为20）
+      const maxRegions = props.options.maxRegions ?? 20;
+      const currentRegionCount = getROIAnnotations().length;
+      if (currentRegionCount >= maxRegions) {
+        alert(`已达到最大区域数量限制（${maxRegions}个）`);
+        tempRect.remove();
+        tempRect = null;
+        return;
+      }
+
       // 设置矩形为可编辑可拖动
       tempRect.draggable = true;
       tempRect.editable = true;

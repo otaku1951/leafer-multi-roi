@@ -62,7 +62,7 @@
         *   样式配置的管理。
     *   **Props 定义**:
         *   `imageSource`: 图片源对象，包含 `id` (可选) 和 `url` (必填) 字段。
-        *   `options`: 配置选项，包含 `regionStyle` 和 `selectedRegionStyle` 字段。
+        *   `options`: 配置选项，包含 `regionStyle`、`selectedRegionStyle` 和 `maxRegions` 字段。
     *   **Emits 事件**:
         *   `roiChange`: ROI 数据变化时触发。
         *   `loadStart`: 图片加载开始时触发。

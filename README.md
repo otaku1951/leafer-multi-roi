@@ -87,7 +87,8 @@ const editorOptions = ref({
     fill: 'rgba(100, 149, 237, 0.5)',
     stroke: 'rgba(100, 149, 237, 1)',
     strokeWidth: 2
-  }
+  },
+  maxRegions: 20 // 最大区域数量限制，默认值为20
 })
 
 // 处理ROI变化
