@@ -18,7 +18,7 @@
     *   选择理由: LeaferJS 提供高效的 2D 渲染能力和丰富的图形对象模型，非常适合处理复杂的画布交互，如 ROI 的绘制、移动、缩放等。
 *   **语言**: [TypeScript](https://www.typescriptlang.org/)
     *   选择理由: 提升代码的可维护性、可读性，减少运行时错误，并为大型项目提供更好的开发体验和类型安全。
-*   **撤销/重做**: [leaferjs-undo-redo](https://www.npmjs.com/package/leaferjs-undo-redo)(https://github.com/otaku1951/leaferjs-undo-redo)
+*   **撤销/重做**: [@zzalai/leafer-undo-redo](https://www.npmjs.com/package/@zzalai/leafer-undo-redo)(https://github.com/otaku1951/@zzalai/leafer-undo-redo)
     *   选择理由: 专门为 LeaferJS 设计的撤销/重做库，可以无缝集成，简化状态管理。本项目将使用此插件来管理所有可撤销/重做操作，包括 ROI 的创建、删除、移动和大小调整。
 *   **热键管理**: [Tinykeys](https://github.com/jamiebuilds/tinykeys)
     *   选择理由: 轻量级的键盘快捷键库，用于实现热键系统，支持复杂的键盘组合。
@@ -50,7 +50,7 @@
     *   **核心逻辑**:
         *   LeaferJS 画布实例的管理与初始化。
         *   ROI 对象的创建、存储、更新和删除。
-        *   与 `leaferjs-undo-redo` 的集成，管理所有可撤销/重做操作。
+        *   与 `@zzalai/leafer-undo-redo` 的集成，管理所有可撤销/重做操作。
         *   鼠标事件处理（绘制、选择、移动、缩放）。
         *   热键事件处理（工具切换、撤销/重做、删除、缩放）。
         *   图片加载（URL/Base64）及显示，包括：
@@ -116,7 +116,7 @@
 *   `package.json`: 需包含 `main` (CJS), `module` (ESM), `types` (TypeScript 类型定义), `exports` (现代 Node.js 和打包工具的入口点) 等字段，以及 Vue3 插件所需的配置。
 *   **依赖管理**:
     *   `leafer-ui` 及其插件应作为 `dependencies`。
-    *   `leaferjs-undo-redo` 应作为 `dependencies`。
+    *   `@zzalai/leafer-undo-redo` 应作为 `dependencies`。
     *   `tinykeys` 应作为 `dependencies`。
     *   `vue` 应作为 `peerDependency`，确保与宿主应用的 Vue3 版本兼容。
 

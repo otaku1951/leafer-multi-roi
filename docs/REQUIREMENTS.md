@@ -106,6 +106,6 @@
 ## 4. 技术栈 (已确认)
 
 *   **核心库**: Leafer.js (用于图形渲染和交互)
-*   **撤销/重做**: leaferjs-undo-redo
+*   **撤销/重做**: @zzalai/leafer-undo-redo
 *   **热键管理**: Tinykeys
 *   **构建工具**: Vite

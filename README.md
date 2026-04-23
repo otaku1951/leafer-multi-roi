@@ -19,19 +19,19 @@
 ### 使用 npm
 
 ```bash
-npm install @zzalai/leaferjs-multi-roi
+npm install @zzalai/leafer-multi-roi
 ```
 
 ### 使用 yarn
 
 ```bash
-yarn add @zzalai/leaferjs-multi-roi
+yarn add @zzalai/leafer-multi-roi
 ```
 
 ### 使用 pnpm
 
 ```bash
-pnpm add @zzalai/leaferjs-multi-roi
+pnpm add @zzalai/leafer-multi-roi
 ```
 
 ## 使用方法
@@ -42,7 +42,7 @@ pnpm add @zzalai/leaferjs-multi-roi
 // main.ts
 import { createApp } from 'vue'
 import App from './App.vue'
-import RoiEditor from '@zzalai/leaferjs-multi-roi'
+import RoiEditor from '@zzalai/leafer-multi-roi'
 
 const app = createApp(App)
 app.use(RoiEditor)
@@ -67,7 +67,7 @@ app.mount('#app')
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { RoiEditor } from '@zzalai/leaferjs-multi-roi'
+import { RoiEditor } from '@zzalai/leafer-multi-roi'
 
 // 图片源
 const imageUrl = ref('https://picsum.photos/1280/1080')
@@ -129,7 +129,7 @@ const handleLoadError = (error: any) => {
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { RoiEditor } from 'leaferjs-multi-roi'
+import { RoiEditor } from '@zzalai/leafer-multi-roi'
 
 const roiEditor = ref<InstanceType<typeof RoiEditor> | null>(null)
 const imageUrl = ref('https://picsum.photos/1280/1080')
@@ -280,11 +280,11 @@ const importCanvas = async (event: Event) => {
 - Vue 3.3.0+
 - LeaferUI 2.0.8+
 - Tinykeys 3.0.0+
-- leaferjs-undo-redo 1.0.2+
+- @zzalai/leafer-undo-redo 1.0.3+
 
 ## 许可证
 
-ISC 许可证
+MIT License
 
 ## 贡献
 
