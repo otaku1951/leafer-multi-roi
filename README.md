@@ -36,26 +36,13 @@ pnpm add @zzalai/leafer-multi-roi
 
 ## 使用方法
 
-### 全局注册
-
-```javascript
-// main.ts
-import { createApp } from 'vue'
-import App from './App.vue'
-import RoiEditor from '@zzalai/leafer-multi-roi'
-
-const app = createApp(App)
-app.use(RoiEditor)
-app.mount('#app')
-```
-
-### 局部使用
+### 基础使用
 
 ```vue
 <template>
   <div class="app">
     <RoiEditor
-      :imageSrc="imageSrc"
+      :imageSource="imageSource"
       :options="editorOptions"
       @roiChange="handleRoiChange"
       @loadStart="handleLoadStart"
@@ -68,10 +55,11 @@ app.mount('#app')
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { RoiEditor } from '@zzalai/leafer-multi-roi'
+import '@zzalai/leafer-multi-roi/dist/leafer-multi-roi.css'
 
 // 图片源
 const imageUrl = ref('https://picsum.photos/1280/1080')
-const imageSrc = computed(() => ({
+const imageSource = computed(() => ({
   id: 'test-image',
   url: imageUrl.value
 }))
@@ -121,7 +109,7 @@ const handleLoadError = (error: any) => {
   <div class="app">
     <RoiEditor
       ref="roiEditor"
-      :imageSrc="imageSrc"
+      :imageSource="imageSource"
     />
     <button @click="reloadImage">重新加载图片</button>
     <button @click="exportCanvas">导出画布</button>
@@ -132,10 +120,11 @@ const handleLoadError = (error: any) => {
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { RoiEditor } from '@zzalai/leafer-multi-roi'
+import '@zzalai/leafer-multi-roi/dist/leafer-multi-roi.css'
 
 const roiEditor = ref<InstanceType<typeof RoiEditor> | null>(null)
 const imageUrl = ref('https://picsum.photos/1280/1080')
-const imageSrc = computed(() => ({
+const imageSource = computed(() => ({
   id: 'test-image',
   url: imageUrl.value
 }))
@@ -280,8 +269,8 @@ const importCanvas = async (event: Event) => {
 ## 依赖
 
 - Vue 3.3.0+
-- LeaferUI 2.0.8+
-- Tinykeys 3.0.0+
+- LeaferUI 2.1.0+
+- Tinykeys 4.0.0+
 - @zzalai/leafer-undo-redo 1.0.3+
 
 ## 许可证

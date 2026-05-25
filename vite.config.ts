@@ -7,7 +7,11 @@ export default defineConfig({
   plugins: [
     vue(),
     // 只在生产构建时生成类型声明
-    process.env.NODE_ENV === 'production' ? dts() : null
+    process.env.NODE_ENV === 'production' ? dts({
+      outDirs: 'dist',
+      include: ['src/**/*.ts', 'src/**/*.vue'],
+      exclude: ['src/**/*.spec.ts', 'src/**/*.test.ts'],
+    }) : null
   ].filter(Boolean),
   build: {
     lib: {
@@ -22,7 +26,7 @@ export default defineConfig({
         globals: {
           vue: 'Vue'
         },
-        exports: "named"
+        exports: 'named'
       }
     },
     // 构建选项

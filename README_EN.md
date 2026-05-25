@@ -1,18 +1,18 @@
 # LeaferJS Multi ROI Component
 
-[中文](README.md) | English
+中文 | [English](README.md)
 
-A Vue3 component based on LeaferJS for multi-region selection on images, used for area annotation and editing on images.
+A Vue3 component for multi-region selection on images using LeaferJS, designed for image annotation and editing.
 
 ## Features
 
-- 🖼️ Support image loading and display
-- 📐 Support drawing, editing and deleting rectangular regions
-- 🔍 Support canvas zooming and dragging
-- ⌨️ Support keyboard hotkey operations
-- 🔄 Support undo/redo functionality
-- 📤 Support canvas information JSON export and import
-- 🎨 Support CSS variables for custom styling
+- 🖼️ Image loading and display
+- 📐 Rectangle region drawing, editing, and deletion
+- 🔍 Canvas zooming and panning
+- ⌨️ Keyboard shortcuts support
+- 🔄 Undo/redo functionality
+- 📤 Canvas JSON export and import
+- 🎨 CSS variables for custom styling
 
 ## Installation
 
@@ -36,26 +36,13 @@ pnpm add @zzalai/leafer-multi-roi
 
 ## Usage
 
-### Global Registration
-
-```javascript
-// main.ts
-import { createApp } from 'vue'
-import App from './App.vue'
-import RoiEditor from '@zzalai/leafer-multi-roi'
-
-const app = createApp(App)
-app.use(RoiEditor)
-app.mount('#app')
-```
-
-### Local Usage
+### Basic Usage
 
 ```vue
 <template>
   <div class="app">
     <RoiEditor
-      :imageSrc="imageSrc"
+      :imageSource="imageSource"
       :options="editorOptions"
       @roiChange="handleRoiChange"
       @loadStart="handleLoadStart"
@@ -68,10 +55,11 @@ app.mount('#app')
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { RoiEditor } from '@zzalai/leafer-multi-roi'
+import '@zzalai/leafer-multi-roi/dist/leafer-multi-roi.css'
 
 // Image source
 const imageUrl = ref('https://picsum.photos/1280/1080')
-const imageSrc = computed(() => ({
+const imageSource = computed(() => ({
   id: 'test-image',
   url: imageUrl.value
 }))
@@ -121,7 +109,7 @@ const handleLoadError = (error: any) => {
   <div class="app">
     <RoiEditor
       ref="roiEditor"
-      :imageSrc="imageSrc"
+      :imageSource="imageSource"
     />
     <button @click="reloadImage">Reload Image</button>
     <button @click="exportCanvas">Export Canvas</button>
@@ -132,10 +120,11 @@ const handleLoadError = (error: any) => {
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { RoiEditor } from '@zzalai/leafer-multi-roi'
+import '@zzalai/leafer-multi-roi/dist/leafer-multi-roi.css'
 
 const roiEditor = ref<InstanceType<typeof RoiEditor> | null>(null)
 const imageUrl = ref('https://picsum.photos/1280/1080')
-const imageSrc = computed(() => ({
+const imageSource = computed(() => ({
   id: 'test-image',
   url: imageUrl.value
 }))
@@ -183,18 +172,18 @@ const importCanvas = async (event: Event) => {
 </script>
 ```
 
-## Application Scenarios
+## Use Cases
 
-- **Image Annotation**：Annotate regions of interest on images
-- **Object Detection**：Generate training data for object detection models
-- **Image Analysis**：Mark specific regions in images for analysis
-- **Medical Imaging**：Mark lesion areas on medical images
-- **E-commerce Products**：Mark different parts on product images
+- **Image Annotation**: Annotate regions of interest on images
+- **Object Detection**: Generate training data for object detection models
+- **Image Analysis**: Mark specific regions for analysis
+- **Medical Imaging**: Mark lesion areas on medical images
+- **E-commerce**: Mark different parts on product images
 
-## Hotkey Operations
+## Keyboard Shortcuts
 
-| Hotkey | Function |
-|--------|----------|
+| Shortcut | Function |
+|----------|----------|
 | V | Select tool |
 | M | Rectangle tool |
 | Ctrl+Z | Undo |
@@ -203,15 +192,15 @@ const importCanvas = async (event: Event) => {
 | Ctrl++ | Zoom in |
 | Ctrl+- | Zoom out |
 | Ctrl+0 | Reset zoom |
-| Alt | Show/hide hotkey hints |
+| Alt | Show/hide shortcut hints |
 
 ## Exposed Methods
 
-- `getROIAnnotations()`：Get all ROI annotation data
-- `getImageInfo()`：Get image information
-- `exportCanvasJSON()`：Export canvas information as JSON string
-- `importCanvasJSON(jsonString, options)`：Import canvas information from JSON string
-- `loadImage()`：Manually load image
+- `getROIAnnotations()`: Get all ROI annotation data
+- `getImageInfo()`: Get image information
+- `exportCanvasJSON()`: Export canvas information as JSON string
+- `importCanvasJSON(jsonString, options)`: Import canvas information from JSON string
+- `loadImage()`: Manually load image
 
 ## CSS Customizable Variables
 
@@ -221,7 +210,7 @@ const importCanvas = async (event: Event) => {
   --leafer-roi-color-primary: #007aff; /* Primary color */
   --leafer-roi-color-background: #f5f5f5; /* Background color */
   --leafer-roi-color-background-light: #f0f0f0; /* Light background color */
-  --leafer-roi-color-white: #fff; /* White color */
+  --leafer-roi-color-white: #fff; /* White */
   --leafer-roi-color-text: #333; /* Text color */
   --leafer-roi-color-text-secondary: #666; /* Secondary text color */
   --leafer-roi-color-text-tertiary: #999999; /* Tertiary text color */
@@ -239,23 +228,23 @@ const importCanvas = async (event: Event) => {
   --leafer-roi-size-zoom-value: 60px; /* Zoom value display width */
   --leafer-roi-font-size-hotkey: 10px; /* Hotkey hint font size */
   --leafer-roi-padding-hotkey: 1px 3px; /* Hotkey hint padding */
-  --leafer-roi-padding-error: 20px; /* Error hint padding */
-  --leafer-roi-padding-error-button: 8px 16px; /* Error hint button padding */
+  --leafer-roi-padding-error: 20px; /* Error message padding */
+  --leafer-roi-padding-error-button: 8px 16px; /* Error button padding */
 
   /* Border radius */
   --leafer-roi-border-radius-tool-button: 4px; /* Tool button border radius */
   --leafer-roi-border-radius-hotkey: 2px; /* Hotkey hint border radius */
   --leafer-roi-border-radius-overlay: 8px; /* Overlay border radius */
-  --leafer-roi-border-radius-zoom: 8px; /* Zoom controller border radius */
+  --leafer-roi-border-radius-zoom: 8px; /* Zoom control border radius */
 
-  /* Shadows */
+  /* Shadow */
   --leafer-roi-shadow-tool-button: 0 2px 4px rgba(0, 0, 0, 0.1); /* Tool button shadow */
   --leafer-roi-shadow-tool-button-active: 0 2px 4px rgba(0, 122, 255, 0.3); /* Tool button active shadow */
   --leafer-roi-shadow-tool-button-hover: 0 4px 6px rgba(0, 0, 0, 0.1); /* Tool button hover shadow */
   --leafer-roi-shadow-overlay: 0 4px 12px rgba(0, 0, 0, 0.1); /* Overlay shadow */
-  --leafer-roi-shadow-zoom: 0 2px 8px rgba(0, 0, 0, 0.15); /* Zoom controller shadow */
+  --leafer-roi-shadow-zoom: 0 2px 8px rgba(0, 0, 0, 0.15); /* Zoom control shadow */
 
-  /* Animations */
+  /* Animation */
   --leafer-roi-transition-time: 0.2s; /* Transition animation duration */
   --leafer-roi-animation-gradient: 2s; /* Gradient animation duration */
 }
@@ -263,12 +252,12 @@ const importCanvas = async (event: Event) => {
 
 ## Events
 
-- `roiChange`：Triggered when ROI changes
-- `loadStart`：Triggered when image starts loading
-- `loadSuccess`：Triggered when image loads successfully
-- `loadError`：Triggered when image fails to load
-- `undoStateChange`：Triggered when undo state changes
-- `redoStateChange`：Triggered when redo state changes
+- `roiChange`: Triggered when ROI changes
+- `loadStart`: Triggered when image starts loading
+- `loadSuccess`: Triggered when image loads successfully
+- `loadError`: Triggered when image fails to load
+- `undoStateChange`: Triggered when undo state changes
+- `redoStateChange`: Triggered when redo state changes
 
 ## Browser Compatibility
 
@@ -280,14 +269,14 @@ const importCanvas = async (event: Event) => {
 ## Dependencies
 
 - Vue 3.3.0+
-- LeaferUI 2.0.8+
-- Tinykeys 3.0.0+
+- LeaferUI 2.1.0+
+- Tinykeys 4.0.0+
 - @zzalai/leafer-undo-redo 1.0.3+
 
 ## License
 
 MIT License
 
-## Contribution
+## Contributing
 
-Welcome to submit Issues and Pull Requests!
+Welcome to submit issues and pull requests!
