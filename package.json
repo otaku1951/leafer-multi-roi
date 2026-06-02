@@ -1,6 +1,6 @@
 {
   "name": "@zzalai/leafer-multi-roi",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Vue3 component for multi-region selection on images using LeaferJS",
   "type": "module",
   "publishConfig": {
@@ -8,12 +8,12 @@
   },
   "main": "./dist/leafer-multi-roi.umd.js",
   "module": "./dist/leafer-multi-roi.es.js",
-  "types": "./dist/src/index.d.ts",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/leafer-multi-roi.es.js",
       "require": "./dist/leafer-multi-roi.umd.js",
-      "types": "./dist/src/index.d.ts"
+      "types": "./dist/index.d.ts"
     },
     "./dist/leafer-multi-roi.css": {
       "import": "./dist/leafer-multi-roi.css",

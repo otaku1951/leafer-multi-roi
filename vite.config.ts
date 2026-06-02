@@ -8,9 +8,10 @@ export default defineConfig({
     vue(),
     // 只在生产构建时生成类型声明
     process.env.NODE_ENV === 'production' ? dts({
-      outDirs: 'dist',
+      outDirs: ['dist'],
       include: ['src/**/*.ts', 'src/**/*.vue'],
       exclude: ['src/**/*.spec.ts', 'src/**/*.test.ts'],
+      tsconfigPath: './tsconfig.json'
     }) : null
   ].filter(Boolean),
   build: {
