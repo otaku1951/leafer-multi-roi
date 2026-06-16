@@ -62,7 +62,8 @@
         *   样式配置的管理。
     *   **Props 定义**:
         *   `imageSource`: 图片源对象，包含 `id` (可选) 和 `url` (必填) 字段。
-        *   `options`: 配置选项，包含 `regionStyle`、`selectedRegionStyle`、`maxRegions` 和 `maxUndoSteps` 字段。
+        *   `options`: 配置选项，包含 `regionStyle`、`selectedRegionStyle`、`maxRegions`、`maxUndoSteps` 和 `enableHotkeys` 字段。
+            *   `enableHotkeys`（可选，默认 `false`）：是否启用键盘热键。设置为 `true` 时注册热键事件监听器，卸载组件时自动解绑。每个组件实例拥有独立的热键解绑函数，支持多实例同时使用而不冲突。
     *   **Emits 事件**:
         *   `roiChange`: ROI 数据变化时触发。
         *   `loadStart`: 图片加载开始时触发。

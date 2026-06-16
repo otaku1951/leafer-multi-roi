@@ -202,13 +202,6 @@ import {
   MoveCommand,
   ResizeCommand,
 } from "@zzalai/leafer-undo-redo";
-// 扩展 Window 接口，添加热键取消订阅函数
-declare global {
-  interface Window {
-    __roiEditorHotkeysUnsubscribe?: () => void;
-  }
-}
-
 // @ts-ignore - tinykeys 类型声明问题
 import { tinykeys } from "tinykeys";
 
@@ -231,6 +224,7 @@ export interface OptionsSource {
   };
   maxRegions?: number;
   maxUndoSteps?: number;
+  enableHotkeys?: boolean;
 }
 
 const props = defineProps({
@@ -779,6 +773,9 @@ const importCanvasJSON = async (
   }
 };
 
+// 🔧 多实例支持：tinykeys 解绑函数保存在组件作用域，避免多个实例互相覆盖
+let hotkeysUnsubscribe: (() => void) | null = null;
+
 // 组件挂载时初始化
 onMounted(() => {
   // 初始化逻辑将在此处添加
@@ -790,72 +787,74 @@ onMounted(() => {
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("mousemove", handleMouseMove);
 
-    // 注册热键
-    const unsubscribe = tinykeys(window, {
-      // 选择工具
-      v: (event: KeyboardEvent) => {
-        if (!isCanvasFocused.value && !isMouseOverCanvas.value) return;
-        event.preventDefault();
-        selectTool();
-      },
-      // 框选工具
-      m: (event: KeyboardEvent) => {
-        if (!isCanvasFocused.value && !isMouseOverCanvas.value) return;
-        event.preventDefault();
-        rectangleTool();
-      },
-      // 撤销
-      "$mod+KeyZ": (event: KeyboardEvent) => {
-        if (!isCanvasFocused.value && !isMouseOverCanvas.value) return;
-        event.preventDefault();
-        event.stopPropagation();
-        undo();
-      },
-      // 重做
-      "$mod+KeyY": (event: KeyboardEvent) => {
-        if (!isCanvasFocused.value && !isMouseOverCanvas.value) return;
-        event.preventDefault();
-        event.stopPropagation();
-        redo();
-      },
-      // 删除
-      Delete: (event: KeyboardEvent) => {
-        if (!isCanvasFocused.value && !isMouseOverCanvas.value) return;
-        event.preventDefault();
-        event.stopPropagation();
-        deleteSelected();
-      },
-      // 放大
-      "$mod+Equal": (event: KeyboardEvent) => {
-        if (!isCanvasFocused.value && !isMouseOverCanvas.value) return;
-        event.preventDefault();
-        event.stopPropagation();
-        zoomIn();
-      },
-      // 缩小
-      "$mod+Minus": (event: KeyboardEvent) => {
-        if (!isCanvasFocused.value && !isMouseOverCanvas.value) return;
-        event.preventDefault();
-        event.stopPropagation();
-        zoomOut();
-      },
-      // 重置缩放
-      "$mod+0": (event: KeyboardEvent) => {
-        if (!isCanvasFocused.value && !isMouseOverCanvas.value) return;
-        event.preventDefault();
-        event.stopPropagation();
-        resetZoom();
-      },
-      // 切换热键提示
-      Alt: (event: KeyboardEvent) => {
-        if (!isCanvasFocused.value && !isMouseOverCanvas.value) return;
-        event.preventDefault();
-        showHotkeys.value = !showHotkeys.value;
-      },
-    });
+    // 根据 enableHotkeys 配置决定是否注册热键（默认不启用）
+    if (props.options.enableHotkeys) {
+      const unsubscribe = tinykeys(window, {
+        // 选择工具
+        v: (event: KeyboardEvent) => {
+          if (!isCanvasFocused.value && !isMouseOverCanvas.value) return;
+          event.preventDefault();
+          selectTool();
+        },
+        // 框选工具
+        m: (event: KeyboardEvent) => {
+          if (!isCanvasFocused.value && !isMouseOverCanvas.value) return;
+          event.preventDefault();
+          rectangleTool();
+        },
+        // 撤销
+        "$mod+KeyZ": (event: KeyboardEvent) => {
+          if (!isCanvasFocused.value && !isMouseOverCanvas.value) return;
+          event.preventDefault();
+          event.stopPropagation();
+          undo();
+        },
+        // 重做
+        "$mod+KeyY": (event: KeyboardEvent) => {
+          if (!isCanvasFocused.value && !isMouseOverCanvas.value) return;
+          event.preventDefault();
+          event.stopPropagation();
+          redo();
+        },
+        // 删除
+        Delete: (event: KeyboardEvent) => {
+          if (!isCanvasFocused.value && !isMouseOverCanvas.value) return;
+          event.preventDefault();
+          event.stopPropagation();
+          deleteSelected();
+        },
+        // 放大
+        "$mod+Equal": (event: KeyboardEvent) => {
+          if (!isCanvasFocused.value && !isMouseOverCanvas.value) return;
+          event.preventDefault();
+          event.stopPropagation();
+          zoomIn();
+        },
+        // 缩小
+        "$mod+Minus": (event: KeyboardEvent) => {
+          if (!isCanvasFocused.value && !isMouseOverCanvas.value) return;
+          event.preventDefault();
+          event.stopPropagation();
+          zoomOut();
+        },
+        // 重置缩放
+        "$mod+0": (event: KeyboardEvent) => {
+          if (!isCanvasFocused.value && !isMouseOverCanvas.value) return;
+          event.preventDefault();
+          event.stopPropagation();
+          resetZoom();
+        },
+        // 切换热键提示
+        Alt: (event: KeyboardEvent) => {
+          if (!isCanvasFocused.value && !isMouseOverCanvas.value) return;
+          event.preventDefault();
+          showHotkeys.value = !showHotkeys.value;
+        },
+      });
 
-    // 保存取消订阅函数
-    window.__roiEditorHotkeysUnsubscribe = unsubscribe;
+      // 🔧 多实例支持：解绑函数保存在当前组件作用域，不使用全局 window
+      hotkeysUnsubscribe = unsubscribe;
+    }
   });
 });
 
@@ -1111,10 +1110,10 @@ onUnmounted(() => {
   window.removeEventListener("keydown", handleKeyDown);
   window.removeEventListener("mousemove", handleMouseMove);
 
-  // 清理热键
-  if (window.__roiEditorHotkeysUnsubscribe) {
-    window.__roiEditorHotkeysUnsubscribe();
-    delete window.__roiEditorHotkeysUnsubscribe;
+  // 🔧 多实例支持：清理当前实例自己的热键订阅
+  if (hotkeysUnsubscribe) {
+    hotkeysUnsubscribe();
+    hotkeysUnsubscribe = null;
   }
 });
 

@@ -9,10 +9,11 @@
 - 🖼️ 支持图片加载和显示
 - 📐 支持矩形区域的绘制、编辑和删除
 - 🔍 支持画布缩放和拖拽
-- ⌨️ 支持键盘热键操作
+- ⌨️ 支持可选的键盘热键操作（需显式启用）
 - 🔄 支持撤销/重做功能
 - 📤 支持画布信息 JSON 导出和导入
 - 🎨 支持 CSS 变量自定义样式
+- 👥 支持多实例独立使用（每个组件实例状态隔离）
 
 ## 安装
 
@@ -77,7 +78,8 @@ const editorOptions = ref({
     strokeWidth: 2
   },
   maxRegions: 20, // 最大区域数量限制，默认值为20
-  maxUndoSteps: 100 // 最大撤销/重做步数限制，默认值为100
+  maxUndoSteps: 100, // 最大撤销/重做步数限制，默认值为100
+  enableHotkeys: true // 是否启用键盘热键，默认不启用。显式设置为 true 时注册热键
 })
 
 // 处理ROI变化
@@ -182,6 +184,8 @@ const importCanvas = async (event: Event) => {
 
 ## 热键操作
 
+> ⚠️ **注意**：热键功能默认不启用，需在初始化时通过 `options.enableHotkeys: true` 显式开启。每个 `RoiEditor` 组件实例的热键管理相互独立，支持多实例同时使用而不冲突。
+
 | 热键 | 功能 |
 |------|------|
 | V | 选择工具 |
@@ -193,6 +197,15 @@ const importCanvas = async (event: Event) => {
 | Ctrl+- | 缩小 |
 | Ctrl+0 | 重置缩放 |
 | Alt | 显示/隐藏热键提示 |
+
+### 启用热键示例
+
+```vue
+<RoiEditor
+  :imageSource="imageSource"
+  :options="{ enableHotkeys: true }"
+/>
+```
 
 ## 暴露的方法
 

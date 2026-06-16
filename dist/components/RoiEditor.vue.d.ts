@@ -1,8 +1,3 @@
-declare global {
-    interface Window {
-        __roiEditorHotkeysUnsubscribe?: () => void;
-    }
-}
 export interface ImageSource {
     id?: string;
     url: string;
@@ -20,6 +15,7 @@ export interface OptionsSource {
     };
     maxRegions?: number;
     maxUndoSteps?: number;
+    enableHotkeys?: boolean;
 }
 /**
  * 获取 ROI 坐标

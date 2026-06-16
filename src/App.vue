@@ -82,7 +82,8 @@ const editorOptions = ref({
     fill: '#f6c',
     stroke: '#a9d',
     strokeWidth: 10
-  }
+  },
+  enableHotkeys: true // 默认不启用，显式设置为 true 才启用
 })
 
 // 状态

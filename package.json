@@ -1,6 +1,6 @@
 {
   "name": "@zzalai/leafer-multi-roi",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Vue3 component for multi-region selection on images using LeaferJS",
   "type": "module",
   "publishConfig": {
@@ -25,7 +25,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "type-check": "tsc --noEmit",
-    "docs:build": "vite build --config vite.docs.config.ts"
+    "docs:build": "vite build --config vite.docs.config.ts",
+    "build:all": "npm run build && npm run docs:build"
   },
   "keywords": [
     "vue3",

@@ -9,10 +9,11 @@ A Vue3 component for multi-region selection on images using LeaferJS, designed f
 - 🖼️ Image loading and display
 - 📐 Rectangle region drawing, editing, and deletion
 - 🔍 Canvas zooming and panning
-- ⌨️ Keyboard shortcuts support
+- ⌨️ Optional keyboard shortcuts support (must be explicitly enabled)
 - 🔄 Undo/redo functionality
 - 📤 Canvas JSON export and import
 - 🎨 CSS variables for custom styling
+- 👥 Multi-instance support (each component instance has isolated state)
 
 ## Installation
 
@@ -77,7 +78,8 @@ const editorOptions = ref({
     strokeWidth: 2
   },
   maxRegions: 20, // Maximum number of regions, default is 20
-  maxUndoSteps: 100 // Maximum undo/redo steps, default is 100
+  maxUndoSteps: 100, // Maximum undo/redo steps, default is 100
+  enableHotkeys: true // Enable keyboard hotkeys, default is false. Set to true to register hotkeys
 })
 
 // Handle ROI change
@@ -182,6 +184,8 @@ const importCanvas = async (event: Event) => {
 
 ## Keyboard Shortcuts
 
+> ⚠️ **Note**: Hotkeys are disabled by default. Explicitly set `options.enableHotkeys: true` during initialization to enable them. Each `RoiEditor` component instance manages hotkeys independently, supporting multiple concurrent instances without conflicts.
+
 | Shortcut | Function |
 |----------|----------|
 | V | Select tool |
@@ -193,6 +197,15 @@ const importCanvas = async (event: Event) => {
 | Ctrl+- | Zoom out |
 | Ctrl+0 | Reset zoom |
 | Alt | Show/hide shortcut hints |
+
+### Enabling Hotkeys
+
+```vue
+<RoiEditor
+  :imageSource="imageSource"
+  :options="{ enableHotkeys: true }"
+/>
+```
 
 ## Exposed Methods
 
