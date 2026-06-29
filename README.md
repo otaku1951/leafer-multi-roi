@@ -271,6 +271,7 @@ const importCanvas = async (event: Event) => {
 - `loadError`：当图片加载失败时触发
 - `undoStateChange`：当撤销状态变化时触发
 - `redoStateChange`：当重做状态变化时触发
+- `max-regions-exceeded`：当达到最大区域数量限制时触发，携带 `maxRegions` 值，父组件可自定义提示方式
 
 ## 浏览器兼容性
 

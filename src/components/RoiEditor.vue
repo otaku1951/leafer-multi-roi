@@ -247,6 +247,7 @@ const emit = defineEmits([
   "loadError",
   "undoStateChange",
   "redoStateChange",
+  "max-regions-exceeded",
 ]);
 
 // 画布容器引用
@@ -1026,8 +1027,8 @@ const handlePointerUp = () => {
       // 检查是否超过最大区域数量限制（默认值为20）
       const maxRegions = props.options.maxRegions ?? 20;
       const currentRegionCount = getROIAnnotations().length;
-      if (currentRegionCount >= maxRegions) {
-        alert(`已达到最大区域数量限制（${maxRegions}个）`);
+      if (currentRegionCount > maxRegions) {
+        emit("max-regions-exceeded", maxRegions);
         tempRect.remove();
         tempRect = null;
         return;

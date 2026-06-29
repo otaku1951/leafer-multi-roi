@@ -71,6 +71,7 @@ declare const __VLS_export: import('vue').DefineComponent<import('vue').ExtractP
     loadError: (...args: any[]) => void;
     undoStateChange: (...args: any[]) => void;
     redoStateChange: (...args: any[]) => void;
+    "max-regions-exceeded": (...args: any[]) => void;
 }, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
     imageSource: {
         type: () => ImageSource;
@@ -87,6 +88,7 @@ declare const __VLS_export: import('vue').DefineComponent<import('vue').ExtractP
     onLoadError?: ((...args: any[]) => any) | undefined;
     onUndoStateChange?: ((...args: any[]) => any) | undefined;
     onRedoStateChange?: ((...args: any[]) => any) | undefined;
+    "onMax-regions-exceeded"?: ((...args: any[]) => any) | undefined;
 }>, {
     options: OptionsSource;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
