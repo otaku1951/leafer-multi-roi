@@ -14,6 +14,9 @@ export default defineConfig({
       tsconfigPath: './tsconfig.json'
     }) : null
   ].filter(Boolean),
+  server: {
+    host: '0.0.0.0'
+  },
   build: {
     lib: {
       entry: './src/index.ts',

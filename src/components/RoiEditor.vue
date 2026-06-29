@@ -204,6 +204,7 @@ import {
 } from "@zzalai/leafer-undo-redo";
 // @ts-ignore - tinykeys 类型声明问题
 import { tinykeys } from "tinykeys";
+import { generateUUID } from "../utils/uuid";
 
 // Props
 export interface ImageSource {
@@ -984,7 +985,7 @@ const handlePointerMove = (e: any) => {
   // 如果临时矩形不存在，创建它
   if (!tempRect) {
     tempRect = new Rect({
-      id: crypto.randomUUID(),
+      id: generateUUID(),
       x: x,
       y: y,
       width: width,

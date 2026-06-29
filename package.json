@@ -1,6 +1,6 @@
 {
   "name": "@zzalai/leafer-multi-roi",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Vue3 component for multi-region selection on images using LeaferJS",
   "type": "module",
   "publishConfig": {
