@@ -79,7 +79,9 @@ const editorOptions = ref({
   },
   maxRegions: 20, // Maximum number of regions, default is 20
   maxUndoSteps: 100, // Maximum undo/redo steps, default is 100
-  enableHotkeys: true // Enable keyboard hotkeys, default is false. Set to true to register hotkeys
+  enableHotkeys: true, // Enable keyboard hotkeys, default is false. Set to true to register hotkeys
+  loadingGradientColors: ['#e8e0ff', '#d8e8ff'], // Loading animation gradient colors, default light purple to light blue
+  loadingTextColor: '#4a5568' // Loading text color, default dark gray
 })
 
 // Handle ROI change
@@ -93,8 +95,8 @@ const handleLoadStart = () => {
 }
 
 // Handle image load success
-const handleLoadSuccess = () => {
-  console.log('Image load success')
+const handleLoadSuccess = (info: { url: string; width: number; height: number; id: string }) => {
+  console.log('Image load success:', info)
 }
 
 // Handle image load error
@@ -214,6 +216,14 @@ const importCanvas = async (event: Event) => {
 - `exportCanvasJSON()`: Export canvas information as JSON string
 - `importCanvasJSON(jsonString, options)`: Import canvas information from JSON string
 - `loadImage()`: Manually load image
+- `undo()`: Undo the last operation
+- `redo()`: Redo the last undone operation
+- `selectTool()`: Switch to selection tool
+- `rectangleTool()`: Switch to rectangle drawing tool
+- `deleteSelected()`: Delete selected regions
+- `zoomIn()`: Zoom in the canvas
+- `zoomOut()`: Zoom out the canvas
+- `resetZoom()`: Reset zoom level
 
 ## CSS Customizable Variables
 

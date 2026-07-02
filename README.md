@@ -79,7 +79,9 @@ const editorOptions = ref({
   },
   maxRegions: 20, // 最大区域数量限制，默认值为20
   maxUndoSteps: 100, // 最大撤销/重做步数限制，默认值为100
-  enableHotkeys: true // 是否启用键盘热键，默认不启用。显式设置为 true 时注册热键
+  enableHotkeys: true, // 是否启用键盘热键，默认不启用。显式设置为 true 时注册热键
+  loadingGradientColors: ['#e8e0ff', '#d8e8ff'], // 加载动画渐变颜色，默认淡紫到淡蓝
+  loadingTextColor: '#4a5568' // 加载提示文字颜色，默认深灰色
 })
 
 // 处理ROI变化
@@ -93,8 +95,8 @@ const handleLoadStart = () => {
 }
 
 // 处理图片加载成功
-const handleLoadSuccess = () => {
-  console.log('Image load success')
+const handleLoadSuccess = (info: { url: string; width: number; height: number; id: string }) => {
+  console.log('Image load success:', info)
 }
 
 // 处理图片加载失败
@@ -214,6 +216,14 @@ const importCanvas = async (event: Event) => {
 - `exportCanvasJSON()`：导出画布信息为 JSON 字符串
 - `importCanvasJSON(jsonString, options)`：从 JSON 字符串导入画布信息
 - `loadImage()`：手动加载图片
+- `undo()`：撤销上一步操作
+- `redo()`：重做上一步操作
+- `selectTool()`：切换到选择工具
+- `rectangleTool()`：切换到矩形绘制工具
+- `deleteSelected()`：删除选中的区域
+- `zoomIn()`：放大画布
+- `zoomOut()`：缩小画布
+- `resetZoom()`：重置缩放比例
 
 ## CSS 可重置变量
 

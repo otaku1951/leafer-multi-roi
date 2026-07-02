@@ -7,7 +7,7 @@
     @mouseleave="isMouseOverCanvas = false"
   >
     <!-- 画布容器 -->
-    <div ref="canvasContainer" class="canvas-container" tabindex="0">
+    <div ref="canvasContainer" class="canvas-container" tabindex="0" :style="loadingStyleVars">
       <!-- 加载占位 -->
       <div
         v-if="loadStatus === 'loading'"
@@ -177,7 +177,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, nextTick } from "vue";
+import { ref, onMounted, onUnmounted, nextTick, computed } from "vue";
 import {
   App,
   ImageEvent,
@@ -226,6 +226,8 @@ export interface OptionsSource {
   maxRegions?: number;
   maxUndoSteps?: number;
   enableHotkeys?: boolean;
+  loadingGradientColors?: [string, string];
+  loadingTextColor?: string;
 }
 
 const props = defineProps({
@@ -285,6 +287,17 @@ const isDragging = ref(false);
 const startX = ref(0);
 const startY = ref(0);
 let tempRect: Rect | null = null;
+const blobUrls = new Set<string>();
+
+const loadingStyleVars = computed(() => {
+  const colors = props.options.loadingGradientColors || ["#e8e0ff", "#d8e8ff"];
+  const textColor = props.options.loadingTextColor || "#4a5568";
+  return {
+    "--loading-gradient-start": colors[0],
+    "--loading-gradient-end": colors[1],
+    "--loading-text-color": textColor,
+  };
+});
 
 // 移动撤销/重做相关状态
 interface MoveData {
@@ -551,7 +564,17 @@ const loadImage = async (imageSrc?: string | undefined) => {
     // 监听加载成功
     imageBox.on(ImageEvent.LOADED, function () {
       loadStatus.value = "success";
-      emit("loadSuccess");
+      const currentUrl = props.imageSource?.url || "";
+      if (blobUrls.has(currentUrl)) {
+        URL.revokeObjectURL(currentUrl);
+        blobUrls.delete(currentUrl);
+      }
+      emit("loadSuccess", {
+        url: currentUrl,
+        width: imageWidth.value,
+        height: imageHeight.value,
+        id: props.imageSource?.id || "",
+      });
 
       // 调整图片在画布中的显示
       fitImageToCanvas();
@@ -1253,11 +1276,14 @@ defineExpose({
   exportCanvasJSON,
   importCanvasJSON,
   loadImage,
-  // selectTool,
-  // rectangleTool,
-  // undo,
-  // redo,
-  // deleteSelected,
+  undo,
+  redo,
+  selectTool,
+  rectangleTool,
+  deleteSelected,
+  zoomIn,
+  zoomOut,
+  resetZoom,
 });
 </script>
 
@@ -1348,7 +1374,7 @@ defineExpose({
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--loading-gradient-start, #e8e0ff) 0%, var(--loading-gradient-end, #d8e8ff) 100%);
   background-size: 200% 200%;
   animation: gradientShift var(--leafer-roi-animation-gradient) ease-in-out
     infinite;
@@ -1370,7 +1396,7 @@ defineExpose({
 .loading-text {
   position: relative;
   z-index: 1;
-  color: white;
+  color: var(--loading-text-color, #4a5568);
   font-size: 16px;
   font-weight: 500;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);

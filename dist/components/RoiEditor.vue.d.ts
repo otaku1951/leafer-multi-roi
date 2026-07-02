@@ -16,6 +16,8 @@ export interface OptionsSource {
     maxRegions?: number;
     maxUndoSteps?: number;
     enableHotkeys?: boolean;
+    loadingGradientColors?: [string, string];
+    loadingTextColor?: string;
 }
 /**
  * 获取 ROI 坐标
@@ -64,6 +66,14 @@ declare const __VLS_export: import('vue').DefineComponent<import('vue').ExtractP
     exportCanvasJSON: () => string;
     importCanvasJSON: (jsonString: string, options?: ImportCanvasOptions) => Promise<boolean>;
     loadImage: (imageSrc?: string | undefined) => Promise<void>;
+    undo: () => void;
+    redo: () => void;
+    selectTool: () => void;
+    rectangleTool: () => void;
+    deleteSelected: () => void;
+    zoomIn: () => void;
+    zoomOut: () => void;
+    resetZoom: () => void;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     roiChange: (...args: any[]) => void;
     loadStart: (...args: any[]) => void;
